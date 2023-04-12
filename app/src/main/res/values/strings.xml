@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Stytch Android Example</string>
+    <string name="home_title">Sign up or log in</string>
+    <string name="google_logo">Google Logo</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="apple_logo">Apple Logo</string>
+    <string name="continue_with_apple">Continue with Apple</string>
+    <string name="home_divider_text">or</string>
+    <string name="button_continue">Continue</string>
+    <string name="button_logout">Log out</string>
+    <string name="back">Back</string>
+    <string name="otp_title">Enter passcode</string>
+    <string name="otp_body">A 6-digit passcode was sent to you at </string>
+    <string name="profile_title">You’re logged in!</string>
+    <string name="powered_by_stytch">Powered by Stytch</string>
+    <string name="profile_user_id">USER ID</string>
+    <string name="profile_name">NAME</string>
+    <string name="profile_email">EMAIL</string>
+    <string name="profile_email_id">EMAIL ID</string>
+    <string name="profile_oauth_provider">OAUTH PROVIDER</string>
+    <string name="profile_oauth_subject">PROVIDER SUBJECT</string>
+    <string name="profile_phone_id">PHONE ID</string>
+    <string name="profile_phone_number">PHONE NUMBER</string>
+</resources>
