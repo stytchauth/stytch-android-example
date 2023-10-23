@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stytch.sdk.common.DeeplinkHandledStatus
 import com.stytch.sdk.common.StytchResult
-import com.stytch.sdk.common.oauth.OAuthError
+import com.stytch.sdk.common.sso.SSOError
 import com.stytch.sdk.consumer.StytchClient
 import com.stytch.sdk.consumer.oauth.OAuth
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,13 +59,13 @@ class MainViewModel : ViewModel() {
                     }
                 }
             } else {
-                intent.extras?.getSerializable(OAuthError.OAUTH_EXCEPTION)?.let {
-                    when (it as OAuthError) {
-                        is OAuthError.UserCanceled -> {
+                intent.extras?.getSerializable(SSOError.SSO_EXCEPTION)?.let {
+                    when (it as SSOError) {
+                        is SSOError.UserCanceled -> {
                             _authenticationError.value = null
                         } // do nothing
-                        is OAuthError.NoBrowserFound,
-                        is OAuthError.NoURIFound,
+                        is SSOError.NoBrowserFound,
+                        is SSOError.NoURIFound,
                         -> _authenticationError.value = it.message
                     }
                 }
