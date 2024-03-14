@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
                     _authenticationError.value = null
                     _navigationState.value = NavigationState.Navigate("profile")
                 }
-                is StytchResult.Error -> _authenticationError.value = result.exception.reason.toString()
+                is StytchResult.Error -> _authenticationError.value = result.exception.message
             }
         }
     }
@@ -49,7 +49,7 @@ class MainViewModel : ViewModel() {
             if (resultCode == Activity.RESULT_OK) {
                 intent.data?.let {
                     when (val result = StytchClient.handle(it, 60U)) {
-                        is DeeplinkHandledStatus.NotHandled -> _authenticationError.value = result.reason
+                        is DeeplinkHandledStatus.NotHandled -> _authenticationError.value = result.toString()
                         is DeeplinkHandledStatus.Handled -> {
                             _authenticationError.value = null
                             _navigationState.value = NavigationState.Navigate("profile")

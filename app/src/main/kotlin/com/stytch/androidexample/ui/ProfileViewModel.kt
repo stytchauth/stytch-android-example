@@ -2,7 +2,7 @@ package com.stytch.androidexample.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stytch.sdk.common.StytchExceptions
+import com.stytch.sdk.common.errors.StytchError
 import com.stytch.sdk.common.StytchResult
 import com.stytch.sdk.consumer.StytchClient
 import com.stytch.sdk.consumer.network.models.UserData
@@ -14,7 +14,7 @@ sealed interface ProfileState {
     object Loading : ProfileState
     object LoggedOut : ProfileState
     data class Loaded(val profile: UserData) : ProfileState
-    data class Error(val error: StytchExceptions) : ProfileState
+    data class Error(val error: StytchError) : ProfileState
 }
 
 class ProfileViewModel : ViewModel() {
