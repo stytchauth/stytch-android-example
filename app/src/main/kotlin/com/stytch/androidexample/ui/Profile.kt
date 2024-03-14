@@ -44,7 +44,7 @@ fun Profile(
             }
             (profile.value as? ProfileState.Error)?.let {
                 Text(
-                    text = it.error.toString() ?: "Unknown error occurred",
+                    text = it.error.message,
                     style = Typography.body2,
                 )
             }

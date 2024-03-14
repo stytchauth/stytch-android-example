@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
                     _authenticationError.value = null
                     _navigationState.value = NavigationState.Navigate("profile")
                 }
-                is StytchResult.Error -> _authenticationError.value = result.exception.toString()
+                is StytchResult.Error -> _authenticationError.value = result.exception.message
             }
         }
     }
