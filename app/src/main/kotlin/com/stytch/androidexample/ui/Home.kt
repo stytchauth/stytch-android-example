@@ -3,8 +3,11 @@ package com.stytch.androidexample.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -21,8 +24,10 @@ import com.stytch.androidexample.ui.elements.SocialLoginButton
 fun Home(
     homeViewModel: HomeViewModel = viewModel(),
     onOTPSent: (OTPResult) -> Unit,
+    onGoogleAuthenticated: () -> Unit,
 ) {
     val context = LocalContext.current as ComponentActivity
+    val (errorMessage, setErrorMessage) = remember { mutableStateOf<String?>(null) }
     LaunchedEffect(homeViewModel.otpSentTo) {
         homeViewModel.otpSentTo?.let {
             onOTPSent(it)
@@ -32,7 +37,7 @@ fun Home(
         PageTitle(text = stringResource(id = R.string.home_title))
         SocialLoginButton(
             modifier = Modifier.padding(bottom = 12.dp),
-            onClick = { homeViewModel.startGoogleOAuth(context) },
+            onClick = { homeViewModel.startGoogleOAuth(context, onGoogleAuthenticated, setErrorMessage) },
             iconDrawable = painterResource(id = R.drawable.google),
             iconDescription = stringResource(id = R.string.google_logo),
             text = stringResource(id = R.string.continue_with_google),
@@ -56,5 +61,8 @@ fun Home(
             onPhoneNumberSubmit = homeViewModel::sendOTPBySMS,
             phoneNumberError = homeViewModel.phoneNumberError,
         )
+        if (errorMessage != null) {
+            Text(text = errorMessage)
+        }
     }
 }

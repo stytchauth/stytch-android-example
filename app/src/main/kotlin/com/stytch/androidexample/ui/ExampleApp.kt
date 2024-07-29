@@ -42,6 +42,7 @@ fun ExampleApp(
             composable("home") {
                 Home(
                     onOTPSent = { navigateTo("otp/${it.methodId}/${it.phoneNumber}") },
+                    onGoogleAuthenticated = { navigateTo("profile") }
                 )
             }
             composable("otp/{methodId}/{phoneNumber}") {

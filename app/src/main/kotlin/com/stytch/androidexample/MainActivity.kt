@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import com.stytch.androidexample.ui.ExampleApp
 import com.stytch.androidexample.ui.theme.StytchAndroidExampleTheme
 
-const val GOOGLE_OAUTH_REQUEST = 3
 const val THIRD_PARTY_OAUTH_REQUEST = 4
 
 class MainActivity : ComponentActivity() {
@@ -31,7 +30,6 @@ class MainActivity : ComponentActivity() {
     public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
-            GOOGLE_OAUTH_REQUEST -> intent?.let { viewModel.authenticateGoogleOneTapLogin(it) }
             THIRD_PARTY_OAUTH_REQUEST -> intent?.let { viewModel.authenticateThirdPartyOAuth(resultCode, it) }
         }
     }

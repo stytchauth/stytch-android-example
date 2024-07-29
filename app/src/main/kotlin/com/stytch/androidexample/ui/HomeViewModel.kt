@@ -10,10 +10,10 @@ import androidx.lifecycle.viewModelScope
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import com.stytch.androidexample.BuildConfig
-import com.stytch.androidexample.GOOGLE_OAUTH_REQUEST
 import com.stytch.androidexample.THIRD_PARTY_OAUTH_REQUEST
 import com.stytch.sdk.common.StytchResult
 import com.stytch.sdk.consumer.StytchClient
+import com.stytch.sdk.consumer.network.models.INativeOAuthData
 import com.stytch.sdk.consumer.oauth.OAuth
 import com.stytch.sdk.consumer.otp.OTP
 import kotlinx.coroutines.launch
@@ -56,31 +56,23 @@ class HomeViewModel : ViewModel() {
                     )
                 }
                 is StytchResult.Error -> {
-                    phoneNumberError = result.exception.message ?: "Invalid number, please try again."
+                    phoneNumberError = result.exception.message
                 }
             }
         }
     }
 
-    fun startGoogleOAuth(context: ComponentActivity) {
+    fun startGoogleOAuth(context: ComponentActivity, onSuccess: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
-            val didStartOneTap = StytchClient.oauth.googleOneTap.start(
+            val result = StytchClient.oauth.googleOneTap.start(
                 OAuth.GoogleOneTap.StartParameters(
                     context = context,
                     clientId = BuildConfig.GOOGLE_OAUTH_CLIENT_ID,
-                    oAuthRequestIdentifier = GOOGLE_OAUTH_REQUEST,
                 ),
             )
-            if (!didStartOneTap) {
-                // Google OneTap is unavailable, fallback to traditional OAuth
-                StytchClient.oauth.google.start(
-                    OAuth.ThirdParty.StartParameters(
-                        context = context,
-                        oAuthRequestIdentifier = THIRD_PARTY_OAUTH_REQUEST,
-                        loginRedirectUrl = "stytch-example://oauth",
-                        signupRedirectUrl = "stytch-example://oauth",
-                    ),
-                )
+            when (result) {
+                is StytchResult.Success -> onSuccess()
+                is StytchResult.Error -> onError(result.exception.message)
             }
         }
     }
