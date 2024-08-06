@@ -8,7 +8,7 @@ import com.stytch.sdk.common.DeeplinkHandledStatus
 import com.stytch.sdk.common.StytchResult
 import com.stytch.sdk.common.sso.SSOError
 import com.stytch.sdk.consumer.StytchClient
-import com.stytch.sdk.consumer.oauth.OAuth
+import com.stytch.sdk.consumer.network.models.INativeOAuthData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -29,19 +29,6 @@ class MainViewModel : ViewModel() {
 
     fun navigateTo(route: String) {
         _navigationState.value = NavigationState.Navigate(route)
-    }
-
-    fun authenticateGoogleOneTapLogin(data: Intent) {
-        viewModelScope.launch {
-            val parameters = OAuth.GoogleOneTap.AuthenticateParameters(data)
-            when (val result = StytchClient.oauth.googleOneTap.authenticate(parameters)) {
-                is StytchResult.Success -> {
-                    _authenticationError.value = null
-                    _navigationState.value = NavigationState.Navigate("profile")
-                }
-                is StytchResult.Error -> _authenticationError.value = result.exception.message
-            }
-        }
     }
 
     fun authenticateThirdPartyOAuth(resultCode: Int, intent: Intent) {
